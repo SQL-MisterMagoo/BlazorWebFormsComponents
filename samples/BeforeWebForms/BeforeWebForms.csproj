@@ -103,6 +103,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ControlSamples\TreeView\Book.xml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -115,6 +116,7 @@
     <Content Include="ControlSamples\ListView\ModelBinding.aspx" />
     <Content Include="ControlSamples\Repeater\Default.aspx" />
     <Content Include="ControlSamples\TreeView\default.aspx" />
+    <Content Include="ControlSamples\TreeView\XMLBinding.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -213,6 +215,13 @@
     </Compile>
     <Compile Include="ControlSamples\TreeView\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ControlSamples\TreeView\XMLBinding.aspx.cs">
+      <DependentUpon>XMLBinding.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ControlSamples\TreeView\XMLBinding.aspx.designer.cs">
+      <DependentUpon>XMLBinding.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

@@ -45,6 +45,7 @@
                 <li>Menu</li>
                 <li>SiteMapPath</li>
                 <li><a href="ControlSamples/TreeView">TreeView</a></li>
+                <li><a href="ControlSamples/TreeView/XMLBinding">TreeView (XML Binding)</a></li>
             </ul>
         </div>
 
