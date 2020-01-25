@@ -89,46 +89,54 @@ namespace BlazorWebFormsComponents
 
 		private Task DataBindXml(XmlDocument src) {
 
-			var treeNodeCounter = 0;
-			var elements = src.SelectNodes("/*");
-
 			ChildNodesRenderFragment = b =>
 			{
-				b.OpenRegion(100);
-
-				AddElements(b, elements);
-
-				b.CloseRegion();
+				var seq = 100;
+				if (_TreeNodeBindings?.Count > 0)
+				{
+					var nodeName = _TreeNodeBindings[0].DataMember;
+					var attrName = _TreeNodeBindings[0].TextField;
+					var nodes = src.SelectNodes($".//{nodeName}");
+					foreach (XmlElement node in nodes)
+					{
+						b.OpenRegion(seq++);
+						b.OpenComponent<TreeNode>(seq++);
+						b.AddAttribute(seq++, "Value", node.GetAttribute(attrName));
+						b.AddAttribute(seq++, "Text", node.GetAttribute(attrName));
+						//seq = RenderNodes(node, b, seq, 1);
+						b.CloseComponent();
+						b.CloseRegion();
+					}
+				}
+				Console.WriteLine("=========== FRAMES ==============");
+				foreach (var frame in b.GetFrames().Array)
+				{
+					Console.WriteLine($"Frame {frame.Sequence} {frame.FrameType} {frame.ComponentId} {frame.ComponentSubtreeLength}");
+				}
 			};
 
 			StateHasChanged();
 
 			return Task.CompletedTask;
 
-			void AddElements(RenderTreeBuilder builder, XmlNodeList siblings) {
-
-				foreach (XmlNode node in siblings)
+			int RenderNodes(XmlElement src, RenderTreeBuilder b, int seq, int level)
+			{
+				if (level < _TreeNodeBindings.Count)
 				{
-
-					if (!(node is XmlElement)) continue;
-					var element = node as XmlElement;
-
-					var thisBinding = _TreeNodeBindings.FirstOrDefault(b => b.DataMember == element.LocalName);
-
-					if (thisBinding != null) {
-
-						builder.OpenComponent<TreeNode>(treeNodeCounter++);
-
-						builder.AddAttribute(treeNodeCounter++, "Text", element.GetAttribute(thisBinding.TextField));
-
-						if (element.HasChildNodes) AddElements(builder, element.ChildNodes);
-
-						builder.CloseComponent();
+					var nodeName = _TreeNodeBindings[level].DataMember;
+					var attrName = _TreeNodeBindings[level].TextField;
+					var nodes = src.SelectNodes($".//{nodeName}");
+					foreach (XmlElement node in nodes)
+					{
+						b.OpenComponent<TreeNode>(seq++);
+						b.AddAttribute(seq++, "Value", node.GetAttribute(attrName));
+						b.AddAttribute(seq++, "Text", node.GetAttribute(attrName));
+						b.CloseComponent();
 					}
 				}
 
+				return seq;
 			}
-
 		}
 
 		private List<TreeNodeBinding> _TreeNodeBindings = new List<TreeNodeBinding>();

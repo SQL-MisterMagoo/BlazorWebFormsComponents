@@ -1,8 +1,9 @@
 ﻿@inherits BlazorWebFormsComponents.BaseWebFormsComponent
+@using System.Xml
 
 <div class="@CssClass">
-<CascadingValue Name="ParentTreeView" Value="this">
-@ChildContent
-@ChildNodesRenderFragment
-</CascadingValue>
+	<CascadingValue Name="ParentTreeView" Value="this">
+		@ChildContent
+		@ChildNodesRenderFragment
+	</CascadingValue>
 </div>
